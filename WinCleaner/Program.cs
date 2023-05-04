@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 
 namespace WinCleaner
@@ -18,10 +19,11 @@ namespace WinCleaner
 
         private static void Main()
         {
-#if !DUMMY
 #if DEV
             Console.Read();
 #endif
+
+#if !DUMMY
             var clears = new Action[]
             {
                 ClearSoftwareDistributionFolder,
@@ -35,6 +37,7 @@ namespace WinCleaner
                 ClearDnsCache,
                 ExecuteCleanMgr,
                 ResetMicrosoftStore,
+                ClearRecycleBin,
             };
 
             foreach (var clear in clears)
@@ -56,8 +59,8 @@ namespace WinCleaner
             }
 
             Logger.Publish();
-            Console.Read();
-            // TODO check mozilla cache 
+#endif
+            // TODO check mozilla cache
         }
 
         private static void ClearSoftwareDistributionFolder()
@@ -71,7 +74,7 @@ namespace WinCleaner
         private static void ClearUserTempFolder()
         {
             var tempFolder = Path.GetTempPath();
-                
+
             DeleteAllFilesInDir(tempFolder);
         }
 
@@ -87,7 +90,7 @@ namespace WinCleaner
         {
             var winFolder = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
             var prefetchFolder = Path.Combine(winFolder, "Prefetch");
-            
+
             DeleteAllFilesInDir(prefetchFolder);
         }
 
@@ -110,7 +113,7 @@ namespace WinCleaner
         {
             var localFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             var cacheDir = Path.Combine(localFolder, "Google", "Chrome", "User Data", "Default", "Cache");
-         
+
             DeleteAllFilesInDir(cacheDir);
         }
 
@@ -118,7 +121,7 @@ namespace WinCleaner
         {
             var localFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             var cacheDir = Path.Combine(localFolder, "Microsoft", "Edge", "User Data", "Default", "Cache");
-         
+
             DeleteAllFilesInDir(cacheDir);
         }
 
@@ -174,6 +177,24 @@ namespace WinCleaner
             process.WaitForExit();
         }
 
+        private static void ClearRecycleBin()
+        {
+            if (ConfigurationManager.GetClearRecycleBin())
+            {
+                SHEmptyRecycleBin(IntPtr.Zero, null, RecycleFlags.SHRB_NOCONFIRMATION);
+            }
+        }
+
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode)]
+        private static extern uint SHEmptyRecycleBin(IntPtr hwnd, string pszRootPath, RecycleFlags dwFlags);
+
+        private enum RecycleFlags : uint
+        {
+            SHRB_NOCONFIRMATION = 0x00000001, // Don't ask confirmation
+            SHRB_NOPROGRESSUI = 0x00000002, // Don't show any windows dialog
+            SHRB_NOSOUND = 0x00000004 // Don't make sound, ninja mode enabled :v
+        }
+
         private static void DeleteAllFilesInDir(string path)
         {
             var target = new DirectoryInfo(path);
@@ -220,7 +241,6 @@ namespace WinCleaner
                 }
                 catch { }
             }
-#endif
         }
 
         private static long DirSize(DirectoryInfo target)

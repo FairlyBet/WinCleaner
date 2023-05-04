@@ -9,6 +9,7 @@ namespace WinCleaner
     {
         public const string IncludePath = "include.txt";
         public const string ExcludePath = "exclude.txt";
+        public const string ClearRecycleBin = "clear_recyclebin.txt";
 
 
         public static IEnumerable<string> ReadInclude()
@@ -84,6 +85,18 @@ namespace WinCleaner
 
             WriteInclude(include);
             WriteExclude(exclude);
+        }
+
+        public static bool GetClearRecycleBin()
+        {
+            EnsureFileExistence(ClearRecycleBin);
+            var value = File.ReadAllText(ClearRecycleBin);
+            return bool.TryParse(value, out bool result) && result;
+        }
+
+        public static void SetClearRecycleBin(bool value)
+        {
+            File.WriteAllText(ClearRecycleBin, value.ToString());
         }
     }
 }

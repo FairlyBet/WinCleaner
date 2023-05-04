@@ -1,4 +1,5 @@
 ﻿#define DEV
+
 using System;
 using System.Diagnostics;
 using System.Linq;
@@ -11,13 +12,30 @@ namespace WinCleanerGUI
 {
     public partial class CleanerForm : Form
     {
+        private const string _taskPath = "\\WinCleaner";
+
+
         public CleanerForm()
         {
             InitializeComponent();
+            _clearRecycleBinCheckBox.Checked = ConfigurationManager.GetClearRecycleBin();
+            var task = TaskService.Instance.GetTask(_taskPath);
+            if (task is null)
+            {
+                _neverRadioButton.Select();
+            }
+            else
+            {
+                //var definition = task.Definition;
+                //var triggers = definition.Triggers;
+                //var dailyTrigger = new DailyTrigger();
+                //var weeklyTrigger = new WeeklyTrigger();
+                //var monthlyTrigger = new MonthlyTrigger();
+                //triggers.Contains(dailyTrigger);
+            }
             //TaskDefinition td = TaskService.Instance.NewTask();
-            //td.Triggers.AddNew(TaskTriggerType.Time);
+            //td.Triggers.AddNew()
             //TimeTrigger timeTrigger = new TimeTrigger();
-            //timeTrigger.
         }
 
         private void ClearButtonClick(object sender, EventArgs e)
@@ -83,5 +101,19 @@ namespace WinCleanerGUI
             Hide();
             listForm.Show(this);
         }
+
+        private void СlearRecycleBinCheckedChanged(object sender, EventArgs e)
+        {
+            ConfigurationManager.SetClearRecycleBin(_clearRecycleBinCheckBox.Checked);
+        }
+    }
+
+
+    internal enum TaskRepetitionTrigger
+    {
+        Never,
+        Daily,
+        Weekly,
+        Monthly,
     }
 }
