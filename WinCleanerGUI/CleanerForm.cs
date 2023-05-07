@@ -12,30 +12,52 @@ namespace WinCleanerGUI
 {
     public partial class CleanerForm : Form
     {
-        private const string _taskPath = "\\WinCleaner";
+        private const string _taskPath = "WinCleaner";
+        private const string _taskAction = "WinCleaner.exe";
+        private static readonly TaskService _ts = TaskService.Instance;
+        private Task _task;
 
 
         public CleanerForm()
         {
             InitializeComponent();
             _clearRecycleBinCheckBox.Checked = ConfigurationManager.GetClearRecycleBin();
-            var task = TaskService.Instance.GetTask(_taskPath);
-            if (task is null)
+
+            _task = _ts.GetTask(_taskPath);
+
+            SelectRadioButton();
+        }
+
+        private void SelectRadioButton()
+        {
+            if (_task is null)
+            {
+                _neverRadioButton.Select();
+                return;
+            }
+
+            var td = _task.Definition;
+            var tigger = td.Triggers.FirstOrDefault();
+            if (tigger is null || td.Triggers.Count != 1)
             {
                 _neverRadioButton.Select();
             }
+            else if (tigger is DailyTrigger)
+            {
+                _dailyRadioButton.Select();
+            }
+            else if (tigger is WeeklyTrigger)
+            {
+                _weeklyRadioButton.Select();
+            }
+            else if (tigger is MonthlyTrigger)
+            {
+                _monthlyRadioButton.Select();
+            }
             else
             {
-                //var definition = task.Definition;
-                //var triggers = definition.Triggers;
-                //var dailyTrigger = new DailyTrigger();
-                //var weeklyTrigger = new WeeklyTrigger();
-                //var monthlyTrigger = new MonthlyTrigger();
-                //triggers.Contains(dailyTrigger);
+                _neverRadioButton.Select();
             }
-            //TaskDefinition td = TaskService.Instance.NewTask();
-            //td.Triggers.AddNew()
-            //TimeTrigger timeTrigger = new TimeTrigger();
         }
 
         private void ClearButtonClick(object sender, EventArgs e)
@@ -106,14 +128,55 @@ namespace WinCleanerGUI
         {
             ConfigurationManager.SetClearRecycleBin(_clearRecycleBinCheckBox.Checked);
         }
-    }
 
+        private void NeverRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            if (_neverRadioButton.Checked)
+            {
+                if (_task != null)
+                {
+                    _ts.RootFolder.DeleteTask(_task.Name);
+                    _task = null;
+                }
+            }
+        }
 
-    internal enum TaskRepetitionTrigger
-    {
-        Never,
-        Daily,
-        Weekly,
-        Monthly,
+        private void DailyRadioButtonCheckedChanged(object sender, EventArgs e)
+        {
+            if (_dailyRadioButton.Checked)
+            {
+                SetTrigger(new DailyTrigger());
+            }
+        }
+
+        private void WeeklyRadioButtonCheckedChanged(object sender, EventArgs e)
+        {
+            if (_weeklyRadioButton.Checked)
+            {
+                SetTrigger(new WeeklyTrigger());
+            }
+        }
+
+        private void MonthlyRadioButtonCheckedChanged(object sender, EventArgs e)
+        {
+            if (_monthlyRadioButton.Checked)
+            {
+                SetTrigger(new MonthlyTrigger());
+            }
+        }
+
+        private void SetTrigger(Trigger trigger)
+        {
+            if (_task != null)
+            {
+                _ts.RootFolder.DeleteTask(_task.Name);
+            }
+            var td = _ts.NewTask();
+            td.Actions.Add(_taskAction);
+            td.Triggers.Add(trigger);
+            td.RegistrationInfo.Description = "WinCleaner task";
+
+            _task = _ts.RootFolder.RegisterTaskDefinition(_taskPath, td);
+        }
     }
 }

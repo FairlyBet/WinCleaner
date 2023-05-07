@@ -131,6 +131,7 @@
             this._neverRadioButton.TabStop = true;
             this._neverRadioButton.Text = "Никогда";
             this._neverRadioButton.UseVisualStyleBackColor = true;
+            this._neverRadioButton.CheckedChanged += new System.EventHandler(this.NeverRadioButton_CheckedChanged);
             // 
             // _monthlyRadioButton
             // 
@@ -142,6 +143,7 @@
             this._monthlyRadioButton.TabStop = true;
             this._monthlyRadioButton.Text = "Ежемесячно";
             this._monthlyRadioButton.UseVisualStyleBackColor = true;
+            this._monthlyRadioButton.CheckedChanged += new System.EventHandler(this.MonthlyRadioButtonCheckedChanged);
             // 
             // _weeklyRadioButton
             // 
@@ -153,6 +155,7 @@
             this._weeklyRadioButton.TabStop = true;
             this._weeklyRadioButton.Text = "Еженедельно";
             this._weeklyRadioButton.UseVisualStyleBackColor = true;
+            this._weeklyRadioButton.CheckedChanged += new System.EventHandler(this.WeeklyRadioButtonCheckedChanged);
             // 
             // _dailyRadioButton
             // 
@@ -164,6 +167,7 @@
             this._dailyRadioButton.TabStop = true;
             this._dailyRadioButton.Text = "Ежедневно";
             this._dailyRadioButton.UseVisualStyleBackColor = true;
+            this._dailyRadioButton.CheckedChanged += new System.EventHandler(this.DailyRadioButtonCheckedChanged);
             // 
             // label1
             // 
