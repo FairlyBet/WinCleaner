@@ -12,8 +12,8 @@ namespace WinCleanerGUI
 {
     public partial class CleanerForm : Form
     {
-        private const string _taskPath = "WinCleaner";
-        private const string _taskAction = "WinCleaner.exe";
+        private const string TaskPath = "WinCleaner";
+        private const string TaskAction = "WinCleaner.exe";
         private static readonly TaskService _ts = TaskService.Instance;
         private Task _task;
 
@@ -23,7 +23,7 @@ namespace WinCleanerGUI
             InitializeComponent();
             _clearRecycleBinCheckBox.Checked = ConfigurationManager.GetClearRecycleBin();
 
-            _task = _ts.GetTask(_taskPath);
+            _task = _ts.GetTask(TaskPath);
 
             SelectRadioButton();
         }
@@ -75,37 +75,52 @@ namespace WinCleanerGUI
                 },
                 EnableRaisingEvents = true
             };
-            process.Exited += (sn, ev) => _clearButton.Enabled = true;
+            process.Exited += (sn, ev) =>
+            {
+                _clearButton.Enabled = true;
+                Cursor = Cursors.Default;
+                
+                MessageBox.Show("Очитска завершена\nВсего очищено " + Logger.Total + " байт");
+            };
 
             _clearButton.Enabled = false;
 
             process.Start();
+            Cursor = Cursors.WaitCursor;
         }
 
-        private void AddDirectoryButtonClick(object sender, EventArgs e)
+        private void IncludeDirectoryButtonClick(object sender, EventArgs e)
         {
-            using (var fbd = new FolderBrowserDialog())
+            try
             {
-                DialogResult result = fbd.ShowDialog();
-
-                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+                using (var fbd = new FolderBrowserDialog())
                 {
-                    ConfigurationManager.AddInclude(fbd.SelectedPath);
+                    DialogResult result = fbd.ShowDialog();
+
+                    if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+                    {
+                        ConfigurationManager.AddInclude(fbd.SelectedPath);
+                    }
                 }
             }
+            catch { }
         }
 
         private void ExcludeDirectoryButtonClick(object sender, EventArgs e)
         {
-            using (var fbd = new FolderBrowserDialog())
+            try
             {
-                DialogResult result = fbd.ShowDialog();
-
-                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+                using (var fbd = new FolderBrowserDialog())
                 {
-                    ConfigurationManager.AddExclude(fbd.SelectedPath);
+                    DialogResult result = fbd.ShowDialog();
+
+                    if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+                    {
+                        ConfigurationManager.AddExclude(fbd.SelectedPath);
+                    }
                 }
             }
+            catch { }
         }
 
         private void ShowIncludeClick(object sender, EventArgs e)
@@ -126,7 +141,11 @@ namespace WinCleanerGUI
 
         private void СlearRecycleBinCheckedChanged(object sender, EventArgs e)
         {
-            ConfigurationManager.SetClearRecycleBin(_clearRecycleBinCheckBox.Checked);
+            try
+            {
+                ConfigurationManager.SetClearRecycleBin(_clearRecycleBinCheckBox.Checked);
+            }
+            catch { }
         }
 
         private void NeverRadioButton_CheckedChanged(object sender, EventArgs e)
@@ -172,11 +191,11 @@ namespace WinCleanerGUI
                 _ts.RootFolder.DeleteTask(_task.Name);
             }
             var td = _ts.NewTask();
-            td.Actions.Add(_taskAction);
+            td.Actions.Add(TaskAction);
             td.Triggers.Add(trigger);
             td.RegistrationInfo.Description = "WinCleaner task";
 
-            _task = _ts.RootFolder.RegisterTaskDefinition(_taskPath, td);
+            _task = _ts.RootFolder.RegisterTaskDefinition(TaskPath, td);
         }
     }
 }

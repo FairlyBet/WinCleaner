@@ -13,6 +13,13 @@ namespace WinCleaner
 {
     internal class Program
     {
+        private enum RecycleFlags : uint
+        {
+            SHRB_NOCONFIRMATION = 0x00000001, // Don't ask confirmation
+            SHRB_NOPROGRESSUI = 0x00000002, // Don't show any windows dialog
+            SHRB_NOSOUND = 0x00000004 // Don't make sound, ninja mode enabled :v
+        }
+        
         private static readonly IEnumerable<string> _include = ConfigurationManager.ReadInclude();
         private static readonly IEnumerable<string> _exclude = ConfigurationManager.ReadExclude();
 
@@ -187,13 +194,6 @@ namespace WinCleaner
 
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode)]
         private static extern uint SHEmptyRecycleBin(IntPtr hwnd, string pszRootPath, RecycleFlags dwFlags);
-
-        private enum RecycleFlags : uint
-        {
-            SHRB_NOCONFIRMATION = 0x00000001, // Don't ask confirmation
-            SHRB_NOPROGRESSUI = 0x00000002, // Don't show any windows dialog
-            SHRB_NOSOUND = 0x00000004 // Don't make sound, ninja mode enabled :v
-        }
 
         private static void DeleteAllFilesInDir(string path)
         {

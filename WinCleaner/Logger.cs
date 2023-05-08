@@ -5,9 +5,13 @@ using System.Text;
 
 namespace WinCleaner
 {
-    internal static class Logger
+    public static class Logger
     {
+        public const string LogPath = "last_session.txt";
         private static readonly List<Log> s_logs = new List<Log>();
+        private static long _total;
+
+        public static long Total => _total;
 
 
         public static void Log(Log log)
@@ -26,12 +30,12 @@ namespace WinCleaner
                 totalSize += item.Size;
             }
             sb.Append("Total: " + totalSize + " bytes");
-
-            File.WriteAllText("logs.txt", sb.ToString());
+            _total = totalSize;
+            File.WriteAllText(LogPath, sb.ToString());
         }
     }
 
-    internal class Log
+    public class Log
     {
         public string Name { get; set; }
         public long Size { get; set; }

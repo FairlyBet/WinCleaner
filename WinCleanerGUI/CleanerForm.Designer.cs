@@ -29,12 +29,11 @@
         private void InitializeComponent()
         {
             this._clearButton = new System.Windows.Forms.Button();
-            this._addDirectoryButton = new System.Windows.Forms.Button();
+            this._includeDirectoryButton = new System.Windows.Forms.Button();
             this._excludeDirectoryButton = new System.Windows.Forms.Button();
             this._clearRecycleBinCheckBox = new System.Windows.Forms.CheckBox();
             this._showInclude = new System.Windows.Forms.Button();
             this._showExclude = new System.Windows.Forms.Button();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this._neverRadioButton = new System.Windows.Forms.RadioButton();
             this._monthlyRadioButton = new System.Windows.Forms.RadioButton();
             this._weeklyRadioButton = new System.Windows.Forms.RadioButton();
@@ -50,30 +49,33 @@
             this._clearButton.Name = "_clearButton";
             this._clearButton.Size = new System.Drawing.Size(100, 50);
             this._clearButton.TabIndex = 0;
+            this._clearButton.TabStop = false;
             this._clearButton.Text = "Очистить";
             this._clearButton.UseVisualStyleBackColor = false;
             this._clearButton.Click += new System.EventHandler(this.ClearButtonClick);
             // 
-            // _addDirectoryButton
+            // _includeDirectoryButton
             // 
-            this._addDirectoryButton.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this._addDirectoryButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this._addDirectoryButton.Location = new System.Drawing.Point(12, 163);
-            this._addDirectoryButton.Name = "_addDirectoryButton";
-            this._addDirectoryButton.Size = new System.Drawing.Size(210, 50);
-            this._addDirectoryButton.TabIndex = 1;
-            this._addDirectoryButton.Text = "Добавить директорию";
-            this._addDirectoryButton.UseVisualStyleBackColor = false;
-            this._addDirectoryButton.Click += new System.EventHandler(this.AddDirectoryButtonClick);
+            this._includeDirectoryButton.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this._includeDirectoryButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this._includeDirectoryButton.Location = new System.Drawing.Point(12, 168);
+            this._includeDirectoryButton.Name = "_includeDirectoryButton";
+            this._includeDirectoryButton.Size = new System.Drawing.Size(190, 45);
+            this._includeDirectoryButton.TabIndex = 1;
+            this._includeDirectoryButton.TabStop = false;
+            this._includeDirectoryButton.Text = "Добавить директорию";
+            this._includeDirectoryButton.UseVisualStyleBackColor = false;
+            this._includeDirectoryButton.Click += new System.EventHandler(this.IncludeDirectoryButtonClick);
             // 
             // _excludeDirectoryButton
             // 
             this._excludeDirectoryButton.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this._excludeDirectoryButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this._excludeDirectoryButton.Location = new System.Drawing.Point(12, 219);
+            this._excludeDirectoryButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this._excludeDirectoryButton.Location = new System.Drawing.Point(12, 224);
             this._excludeDirectoryButton.Name = "_excludeDirectoryButton";
-            this._excludeDirectoryButton.Size = new System.Drawing.Size(210, 50);
+            this._excludeDirectoryButton.Size = new System.Drawing.Size(190, 45);
             this._excludeDirectoryButton.TabIndex = 2;
+            this._excludeDirectoryButton.TabStop = false;
             this._excludeDirectoryButton.Text = "Исключить директорию";
             this._excludeDirectoryButton.UseVisualStyleBackColor = false;
             this._excludeDirectoryButton.Click += new System.EventHandler(this.ExcludeDirectoryButtonClick);
@@ -82,10 +84,11 @@
             // 
             this._clearRecycleBinCheckBox.AutoSize = true;
             this._clearRecycleBinCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this._clearRecycleBinCheckBox.Location = new System.Drawing.Point(15, 133);
+            this._clearRecycleBinCheckBox.Location = new System.Drawing.Point(15, 138);
             this._clearRecycleBinCheckBox.Name = "_clearRecycleBinCheckBox";
             this._clearRecycleBinCheckBox.Size = new System.Drawing.Size(161, 24);
             this._clearRecycleBinCheckBox.TabIndex = 4;
+            this._clearRecycleBinCheckBox.TabStop = false;
             this._clearRecycleBinCheckBox.Text = "Очищать корзину";
             this._clearRecycleBinCheckBox.UseVisualStyleBackColor = true;
             this._clearRecycleBinCheckBox.CheckedChanged += new System.EventHandler(this.СlearRecycleBinCheckedChanged);
@@ -94,10 +97,11 @@
             // 
             this._showInclude.BackColor = System.Drawing.SystemColors.ButtonFace;
             this._showInclude.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this._showInclude.Location = new System.Drawing.Point(228, 183);
+            this._showInclude.Location = new System.Drawing.Point(208, 183);
             this._showInclude.Name = "_showInclude";
             this._showInclude.Size = new System.Drawing.Size(40, 30);
             this._showInclude.TabIndex = 5;
+            this._showInclude.TabStop = false;
             this._showInclude.Text = "...";
             this._showInclude.UseVisualStyleBackColor = false;
             this._showInclude.Click += new System.EventHandler(this.ShowIncludeClick);
@@ -106,20 +110,14 @@
             // 
             this._showExclude.BackColor = System.Drawing.SystemColors.ButtonFace;
             this._showExclude.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this._showExclude.Location = new System.Drawing.Point(228, 239);
+            this._showExclude.Location = new System.Drawing.Point(208, 239);
             this._showExclude.Name = "_showExclude";
             this._showExclude.Size = new System.Drawing.Size(40, 30);
             this._showExclude.TabIndex = 6;
+            this._showExclude.TabStop = false;
             this._showExclude.Text = "...";
             this._showExclude.UseVisualStyleBackColor = false;
             this._showExclude.Click += new System.EventHandler(this.ShowExcludeClick);
-            // 
-            // progressBar1
-            // 
-            this.progressBar1.Location = new System.Drawing.Point(352, 233);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(100, 23);
-            this.progressBar1.TabIndex = 7;
             // 
             // _neverRadioButton
             // 
@@ -128,7 +126,6 @@
             this._neverRadioButton.Name = "_neverRadioButton";
             this._neverRadioButton.Size = new System.Drawing.Size(68, 17);
             this._neverRadioButton.TabIndex = 8;
-            this._neverRadioButton.TabStop = true;
             this._neverRadioButton.Text = "Никогда";
             this._neverRadioButton.UseVisualStyleBackColor = true;
             this._neverRadioButton.CheckedChanged += new System.EventHandler(this.NeverRadioButton_CheckedChanged);
@@ -140,7 +137,6 @@
             this._monthlyRadioButton.Name = "_monthlyRadioButton";
             this._monthlyRadioButton.Size = new System.Drawing.Size(89, 17);
             this._monthlyRadioButton.TabIndex = 9;
-            this._monthlyRadioButton.TabStop = true;
             this._monthlyRadioButton.Text = "Ежемесячно";
             this._monthlyRadioButton.UseVisualStyleBackColor = true;
             this._monthlyRadioButton.CheckedChanged += new System.EventHandler(this.MonthlyRadioButtonCheckedChanged);
@@ -152,7 +148,6 @@
             this._weeklyRadioButton.Name = "_weeklyRadioButton";
             this._weeklyRadioButton.Size = new System.Drawing.Size(94, 17);
             this._weeklyRadioButton.TabIndex = 10;
-            this._weeklyRadioButton.TabStop = true;
             this._weeklyRadioButton.Text = "Еженедельно";
             this._weeklyRadioButton.UseVisualStyleBackColor = true;
             this._weeklyRadioButton.CheckedChanged += new System.EventHandler(this.WeeklyRadioButtonCheckedChanged);
@@ -164,7 +159,6 @@
             this._dailyRadioButton.Name = "_dailyRadioButton";
             this._dailyRadioButton.Size = new System.Drawing.Size(82, 17);
             this._dailyRadioButton.TabIndex = 11;
-            this._dailyRadioButton.TabStop = true;
             this._dailyRadioButton.Text = "Ежедневно";
             this._dailyRadioButton.UseVisualStyleBackColor = true;
             this._dailyRadioButton.CheckedChanged += new System.EventHandler(this.DailyRadioButtonCheckedChanged);
@@ -191,12 +185,11 @@
             this.Controls.Add(this._weeklyRadioButton);
             this.Controls.Add(this._monthlyRadioButton);
             this.Controls.Add(this._neverRadioButton);
-            this.Controls.Add(this.progressBar1);
             this.Controls.Add(this._showExclude);
             this.Controls.Add(this._showInclude);
             this.Controls.Add(this._clearRecycleBinCheckBox);
             this.Controls.Add(this._excludeDirectoryButton);
-            this.Controls.Add(this._addDirectoryButton);
+            this.Controls.Add(this._includeDirectoryButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "CleanerForm";
@@ -209,12 +202,11 @@
         #endregion
 
         private System.Windows.Forms.Button _clearButton;
-        private System.Windows.Forms.Button _addDirectoryButton;
+        private System.Windows.Forms.Button _includeDirectoryButton;
         private System.Windows.Forms.Button _excludeDirectoryButton;
         private System.Windows.Forms.CheckBox _clearRecycleBinCheckBox;
         private System.Windows.Forms.Button _showInclude;
         private System.Windows.Forms.Button _showExclude;
-        private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.RadioButton _neverRadioButton;
         private System.Windows.Forms.RadioButton _dailyRadioButton;
         private System.Windows.Forms.RadioButton _weeklyRadioButton;
