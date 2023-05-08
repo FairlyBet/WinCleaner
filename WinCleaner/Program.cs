@@ -1,5 +1,5 @@
-﻿#define DUMMY
-#define DEV
+﻿//#define DUMMY
+//#define DEV
 
 using System;
 using System.Collections.Generic;
@@ -42,9 +42,10 @@ namespace WinCleaner
                 ClearChromeCache,
                 ClearOperaCache,
                 ClearDnsCache,
-                ExecuteCleanMgr,
                 ResetMicrosoftStore,
                 ClearRecycleBin,
+                ClearRecentFolder,
+                ClearWindowsThumbnailCache,
             };
 
             foreach (var clear in clears)
@@ -161,8 +162,8 @@ namespace WinCleaner
                 StartInfo = new ProcessStartInfo
                 {
                     WindowStyle = ProcessWindowStyle.Hidden,
-                    FileName = "CMD.exe",
-                    Arguments = "/C cleanmgr /sagerun:0\nexit\n"
+                    FileName = "cleanmgr.exe",
+                    Arguments = "/verylowdisk"
                 }
             };
             process.Start();
@@ -194,6 +195,19 @@ namespace WinCleaner
 
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode)]
         private static extern uint SHEmptyRecycleBin(IntPtr hwnd, string pszRootPath, RecycleFlags dwFlags);
+
+        private static void ClearRecentFolder()
+        {
+            var recentFolder = Environment.GetFolderPath(Environment.SpecialFolder.Recent);
+            DeleteAllFilesInDir(recentFolder);
+        }
+
+        private static void ClearWindowsThumbnailCache()
+        {
+            var path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            path = Path.Combine(path, "Microsoft\\Windows\\Explorer");
+            DeleteAllFilesInDir(path);
+        }
 
         private static void DeleteAllFilesInDir(string path)
         {

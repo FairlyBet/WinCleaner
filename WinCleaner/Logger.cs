@@ -9,9 +9,6 @@ namespace WinCleaner
     {
         public const string LogPath = "last_session.txt";
         private static readonly List<Log> s_logs = new List<Log>();
-        private static long _total;
-
-        public static long Total => _total;
 
 
         public static void Log(Log log)
@@ -30,7 +27,6 @@ namespace WinCleaner
                 totalSize += item.Size;
             }
             sb.Append("Total: " + totalSize + " bytes");
-            _total = totalSize;
             File.WriteAllText(LogPath, sb.ToString());
         }
     }

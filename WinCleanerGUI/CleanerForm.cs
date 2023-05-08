@@ -1,4 +1,4 @@
-﻿#define DEV
+﻿//#define DEV
 
 using System;
 using System.Diagnostics;
@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows.Forms;
 using WinCleaner;
 using Microsoft.Win32.TaskScheduler;
+using System.IO;
 
 
 namespace WinCleanerGUI
@@ -75,12 +76,17 @@ namespace WinCleanerGUI
                 },
                 EnableRaisingEvents = true
             };
+
             process.Exited += (sn, ev) =>
             {
                 _clearButton.Enabled = true;
                 Cursor = Cursors.Default;
-                
-                MessageBox.Show("Очитска завершена\nВсего очищено " + Logger.Total + " байт");
+                var total = File.ReadAllLines(Logger.LogPath).LastOrDefault();
+                if (total == default)
+                {
+                    return;
+                }
+                MessageBox.Show("Очитска завершена\n" + total);
             };
 
             _clearButton.Enabled = false;
