@@ -1,12 +1,10 @@
-﻿//#define DEV
+﻿//#define DUMMY
 
 using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
-using WinCleaner;
 using Microsoft.Win32.TaskScheduler;
-using System.IO;
+using WinCleaner;
 
 
 namespace WinCleanerGUI
@@ -22,8 +20,8 @@ namespace WinCleanerGUI
         public CleanerForm()
         {
             InitializeComponent();
-            _clearRecycleBinCheckBox.Checked = ConfigurationManager.GetClearRecycleBin();
 
+            _clearRecycleBinCheckBox.Checked = ConfigurationManager.GetClearRecycleBin();
             _task = _ts.GetTask(TaskPath);
 
             SelectRadioButton();
@@ -38,20 +36,20 @@ namespace WinCleanerGUI
             }
 
             var td = _task.Definition;
-            var tigger = td.Triggers.FirstOrDefault();
-            if (tigger is null || td.Triggers.Count != 1)
+            var trigger = td.Triggers.FirstOrDefault();
+            if (trigger is null || td.Triggers.Count != 1)
             {
                 _neverRadioButton.Select();
             }
-            else if (tigger is DailyTrigger)
+            else if (trigger is DailyTrigger)
             {
                 _dailyRadioButton.Select();
             }
-            else if (tigger is WeeklyTrigger)
+            else if (trigger is WeeklyTrigger)
             {
                 _weeklyRadioButton.Select();
             }
-            else if (tigger is MonthlyTrigger)
+            else if (trigger is MonthlyTrigger)
             {
                 _monthlyRadioButton.Select();
             }
@@ -63,36 +61,26 @@ namespace WinCleanerGUI
 
         private void ClearButtonClick(object sender, EventArgs e)
         {
-            var process = new Process
-            {
-                StartInfo = new ProcessStartInfo
-                {
-#if DEV
-                    WindowStyle = ProcessWindowStyle.Normal,
-#else
-                    WindowStyle = ProcessWindowStyle.Hidden,
-#endif
-                    FileName = "WinCleaner.exe",
-                },
-                EnableRaisingEvents = true
-            };
+            _ = PerformCleaningAsync();
+        }
 
-            process.Exited += (sn, ev) =>
-            {
-                _clearButton.Enabled = true;
-                Cursor = Cursors.Default;
-                var total = File.ReadAllLines(Logger.LogPath).LastOrDefault();
-                if (total == default)
-                {
-                    return;
-                }
-                MessageBox.Show("Очитска завершена\n" + total);
-            };
-
+        private async System.Threading.Tasks.Task PerformCleaningAsync()
+        {
             _clearButton.Enabled = false;
-
-            process.Start();
             Cursor = Cursors.WaitCursor;
+#if !DUMMY
+            void cleaning()
+            {
+                Logger.CommitBeforeCleaning();
+                WinCleaner.Cleaner.PerformCleaning();
+                Logger.CommitAfterCleaning();
+                Logger.Publish();
+            }
+            await System.Threading.Tasks.Task.Run(cleaning);
+#endif
+            _clearButton.Enabled = true;
+            Cursor = Cursors.Default;
+            MessageBox.Show($"Очитска завершена\nВсего очищено {Logger.TotalBefore - Logger.TotalAfter} байт");
         }
 
         private void IncludeDirectoryButtonClick(object sender, EventArgs e)

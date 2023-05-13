@@ -361,3 +361,8 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Resources for GoogleDrive
+cosmic-kiln-386017-34d3473cd51b.json
+DriveResources.resx
+DriveResources.Designer.cs

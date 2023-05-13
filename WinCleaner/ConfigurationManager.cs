@@ -9,7 +9,7 @@ namespace WinCleaner
     {
         public const string IncludePath = "include.txt";
         public const string ExcludePath = "exclude.txt";
-        public const string ClearRecycleBin = "clear_recyclebin.txt";
+        public const string ClearRecycleBin = "clear-recyclebin.txt";
 
 
         public static IEnumerable<string> ReadInclude()
