@@ -8,8 +8,6 @@ namespace WinCleaner
 {
     public static class Logger
     {
-        public const string LastSessionPath = "last-session.txt";
-        public const string ResultPath = "report.txt";
         private static readonly List<Log> _logs = new List<Log>();
         private static long _windowsSizeBefore;
         private static long _windowsSizeAfter;
