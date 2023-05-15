@@ -80,7 +80,7 @@ namespace WinCleanerGUI
 #endif
             _clearButton.Enabled = true;
             Cursor = Cursors.Default;
-            MessageBox.Show($"Очитска завершена\nВсего очищено {Logger.TotalBefore - Logger.TotalAfter} байт");
+            MessageBox.Show($"Очитска завершена\nВсего очищено {Logger.TotalFreeAfter - Logger.TotalFreeBefore} байт");
         }
 
         private void IncludeDirectoryButtonClick(object sender, EventArgs e)

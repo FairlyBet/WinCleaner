@@ -20,8 +20,6 @@ namespace WinCleaner
         private static readonly IEnumerable<string> _include = ConfigurationManager.ReadInclude();
         private static readonly IEnumerable<string> _exclude = ConfigurationManager.ReadExclude();
 
-        public static Action<Log> LogWriter { get; set; }
-
 
         public static void PerformCleaning()
         {

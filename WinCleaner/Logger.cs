@@ -16,8 +16,8 @@ namespace WinCleaner
         private static long _totalBefore;
         private static long _totalAfter;
 
-        public static long TotalBefore => _totalBefore;
-        public static long TotalAfter => _totalAfter;
+        public static long TotalFreeBefore => _totalBefore;
+        public static long TotalFreeAfter => _totalAfter;
 
 
         public static void CommitBeforeCleaning()
