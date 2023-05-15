@@ -68,7 +68,7 @@ namespace WinCleanerGUI
         {
             _clearButton.Enabled = false;
             Cursor = Cursors.WaitCursor;
-#if !DUMMY
+
             void Cleaning()
             {
                 Logger.CommitBeforeCleaning();
@@ -76,6 +76,7 @@ namespace WinCleanerGUI
                 Logger.CommitAfterCleaning();
                 Logger.Publish();
             }
+#if !DUMMY
             await System.Threading.Tasks.Task.Run(Cleaning);
 #endif
             _clearButton.Enabled = true;
