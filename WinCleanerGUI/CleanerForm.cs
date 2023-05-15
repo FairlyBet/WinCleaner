@@ -14,7 +14,7 @@ namespace WinCleanerGUI
         private const string TaskPath = "WinCleaner";
         private const string TaskAction = "WinCleaner.exe";
         private static readonly TaskService _ts = TaskService.Instance;
-        private Task _task;
+        private Microsoft.Win32.TaskScheduler.Task _task;
 
 
         public CleanerForm()
@@ -69,14 +69,14 @@ namespace WinCleanerGUI
             _clearButton.Enabled = false;
             Cursor = Cursors.WaitCursor;
 #if !DUMMY
-            void cleaning()
+            void Cleaning()
             {
                 Logger.CommitBeforeCleaning();
                 WinCleaner.Cleaner.PerformCleaning();
                 Logger.CommitAfterCleaning();
                 Logger.Publish();
             }
-            await System.Threading.Tasks.Task.Run(cleaning);
+            await System.Threading.Tasks.Task.Run(Cleaning);
 #endif
             _clearButton.Enabled = true;
             Cursor = Cursors.Default;

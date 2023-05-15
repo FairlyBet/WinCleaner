@@ -35,7 +35,7 @@ namespace WinCleaner
             {
                 return;
             }
-            _totalBefore = systemDrive.TotalSize - systemDrive.TotalFreeSpace;
+            _totalBefore = systemDrive.TotalFreeSpace;
         }
 
         public static void CommitAfterCleaning()
@@ -53,7 +53,7 @@ namespace WinCleaner
             {
                 return;
             }
-            _totalAfter = systemDrive.TotalSize - systemDrive.TotalFreeSpace;
+            _totalAfter = systemDrive.TotalFreeSpace;
         }
 
         public static void Log(Log log)
@@ -107,7 +107,7 @@ namespace WinCleaner
             report += $"Reduced by {_userSizeBefore - _userSizeAfter} bytes " +
                 $"({100 - (float)_userSizeAfter / _userSizeBefore * 100: ##0.##}%)\n\n";
 
-            report += $"Total cleared: {_totalBefore - _totalAfter} bytes";
+            report += $"Total cleared: {_totalAfter - _totalBefore} bytes";
 
             return report;
         }
