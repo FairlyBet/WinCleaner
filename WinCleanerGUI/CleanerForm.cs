@@ -72,7 +72,7 @@ namespace WinCleanerGUI
             void Cleaning()
             {
                 Logger.CommitBeforeCleaning();
-                WinCleaner.Cleaner.PerformCleaning();
+                Cleaner.PerformCleaning();
                 Logger.CommitAfterCleaning();
                 Logger.Publish();
             }

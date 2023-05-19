@@ -9,7 +9,7 @@ using Google.Apis.Upload;
 
 namespace WinCleaner
 {
-    internal class GoogleDriveStatisticFolder
+    internal static class GoogleDriveStatisticFolder
     {
         private static readonly DriveService _service;
         public const string TextType = "text/plain";
