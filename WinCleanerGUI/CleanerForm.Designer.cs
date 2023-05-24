@@ -56,8 +56,8 @@
             // 
             // _includeDirectoryButton
             // 
-            this._includeDirectoryButton.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this._includeDirectoryButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this._includeDirectoryButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(230)))));
+            this._includeDirectoryButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._includeDirectoryButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this._includeDirectoryButton.Location = new System.Drawing.Point(12, 168);
             this._includeDirectoryButton.Name = "_includeDirectoryButton";
@@ -70,8 +70,8 @@
             // 
             // _excludeDirectoryButton
             // 
-            this._excludeDirectoryButton.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this._excludeDirectoryButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this._excludeDirectoryButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(230)))));
+            this._excludeDirectoryButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._excludeDirectoryButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this._excludeDirectoryButton.Location = new System.Drawing.Point(12, 224);
             this._excludeDirectoryButton.Name = "_excludeDirectoryButton";
@@ -86,10 +86,12 @@
             // 
             this._clearRecycleBinCheckBox.AutoSize = true;
             this._clearRecycleBinCheckBox.BackColor = System.Drawing.Color.Transparent;
+            this._clearRecycleBinCheckBox.FlatAppearance.BorderSize = 0;
+            this._clearRecycleBinCheckBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._clearRecycleBinCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this._clearRecycleBinCheckBox.Location = new System.Drawing.Point(15, 138);
             this._clearRecycleBinCheckBox.Name = "_clearRecycleBinCheckBox";
-            this._clearRecycleBinCheckBox.Size = new System.Drawing.Size(149, 24);
+            this._clearRecycleBinCheckBox.Size = new System.Drawing.Size(146, 24);
             this._clearRecycleBinCheckBox.TabIndex = 4;
             this._clearRecycleBinCheckBox.TabStop = false;
             this._clearRecycleBinCheckBox.Text = "Очищати кошик";
@@ -98,8 +100,8 @@
             // 
             // _showInclude
             // 
-            this._showInclude.BackColor = System.Drawing.Color.LightCyan;
-            this._showInclude.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this._showInclude.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(230)))));
+            this._showInclude.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._showInclude.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this._showInclude.Location = new System.Drawing.Point(208, 183);
             this._showInclude.Name = "_showInclude";
@@ -112,8 +114,8 @@
             // 
             // _showExclude
             // 
-            this._showExclude.BackColor = System.Drawing.Color.LightCyan;
-            this._showExclude.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this._showExclude.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(230)))));
+            this._showExclude.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._showExclude.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this._showExclude.Location = new System.Drawing.Point(208, 239);
             this._showExclude.Name = "_showExclude";
