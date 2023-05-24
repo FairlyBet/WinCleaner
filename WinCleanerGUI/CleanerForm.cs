@@ -121,7 +121,7 @@ namespace WinCleanerGUI
         private void ShowIncludeClick(object sender, EventArgs e)
         {
             var dirs = ConfigurationManager.ReadInclude().ToArray();
-            var listForm = new ListForm(dirs, "Добавленные директории", Location);
+            var listForm = new ListForm(dirs, "Додані директорії", Location);
             Hide();
             listForm.Show(this);
         }
@@ -129,7 +129,7 @@ namespace WinCleanerGUI
         private void ShowExcludeClick(object sender, EventArgs e)
         {
             var dirs = ConfigurationManager.ReadExclude().ToArray();
-            var listForm = new ListForm(dirs, "Исключенные директории", Location);
+            var listForm = new ListForm(dirs, "Виключені директорії", Location);
             Hide();
             listForm.Show(this);
         }

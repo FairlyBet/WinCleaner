@@ -12,7 +12,7 @@ namespace WinCleanerGUI
             Text = title;
             if (lines.Length == 0)
             {
-                dirsListBox.Items.Add("Список пуст...");
+                dirsListBox.Items.Add("Список порожній...");
             }
             dirsListBox.Items.AddRange(lines);
             Location = location;
