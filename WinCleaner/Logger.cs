@@ -93,7 +93,7 @@ namespace WinCleaner
             }
         }
 
-        private static string CreateReport()
+        public static string CreateReport()
         {
             var report = "";
 

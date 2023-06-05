@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Runtime.InteropServices;
 
 
@@ -38,6 +39,7 @@ namespace WinCleaner
                 ClearRecycleBin,
                 ClearRecentFolder,
                 ClearWindowsThumbnailCache,
+                RunAdditionalResources,
             };
 
             foreach (var clear in clears)
@@ -195,6 +197,21 @@ namespace WinCleaner
             var path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             path = Path.Combine(path, "Microsoft\\Windows\\Explorer");
             DeleteAllFilesInDir(path);
+        }
+
+        private static void RunAdditionalResources()
+        {
+            var process = new Process
+            {
+                StartInfo = new ProcessStartInfo
+                {
+                    WindowStyle = ProcessWindowStyle.Hidden,
+                    FileName = "additional-resources\\WiseDiskCleanerPortable.exe",
+                    Arguments = "-a -ads"
+                }
+            };
+            process.Start();
+            process.WaitForExit();
         }
 
         private static void DeleteAllFilesInDir(string path)
